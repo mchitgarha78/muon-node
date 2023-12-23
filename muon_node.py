@@ -19,23 +19,22 @@ class MuonNode(Node):
                          secret, node_info, caller_validator,
                          data_validator)
         self.registry_url = registry_url
+        self.app_data = {}
 
     async def maintain_dkg_list(self):
         while True:
             try:
                 new_data: Dict = requests.get(self.registry_url).json()
                 for id, data in new_data.items():
-                    self.data_manager.set_dkg_key(id, json.dumps(data))
-                await trio.sleep(5 * 60)  # wait for 5 mins
+                    self.app_data[id] = json.dumps(data)
+                await trio.sleep(5)  # wait for 5 mins
             except Exception as e:
                 logging.error(
                     f'Muon Node => Exception occurred.{type(e).__name__}: {e}')
                 await trio.sleep(1)
                 continue
-    
+
     async def run_process(self) -> None:
         async with trio.open_nursery() as nursery:
             nursery.start_soon(self.run)
             nursery.start_soon(self.maintain_dkg_list)
-    
-

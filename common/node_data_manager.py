@@ -6,7 +6,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.exc import OperationalError
 import json
 import time
-
+# TODO: Check timing of getting nonces?!
 class NodeDataManager(DataManager):
     def __init__(self, number, max_retries=3) -> None:
         super().__init__()
