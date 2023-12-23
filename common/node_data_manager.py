@@ -1,5 +1,5 @@
 from typing import List
-from muon_frost_py.abstract.node.data_manager import DataManager
+from pyfrost.network.abstract import DataManager
 from sqlalchemy import create_engine, Column, String, Integer, MetaData, Table
 from sqlalchemy import insert, select, update, delete
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -8,9 +8,9 @@ import json
 import time
 
 class NodeDataManager(DataManager):
-    def __init__(self, max_retries=3) -> None:
+    def __init__(self, number, max_retries=3) -> None:
         super().__init__()
-        self.__engine = create_engine('sqlite:///node.db')
+        self.__engine = create_engine(f'sqlite:///node{number}.db')
         self.__session_factory = sessionmaker(bind=self.__engine)
         self.__Session = scoped_session(self.__session_factory)
         self.__max_retries = max_retries
@@ -42,11 +42,13 @@ class NodeDataManager(DataManager):
     
     def set_nonces(self, nonces_list: List) -> None:
         self.__save_data('nonces', 1, json.dumps(nonces_list))
+    
     def get_nonces(self):
-        return self.__get_data('nonces', 1)
+        result = self.__get_data('nonces', 1)
+        return result
     
     def set_dkg_key(self, key, value) -> None:
-        self.__save_data('dkg_list', key, value)
+        self.__save_data('dkg_list', key, json.dumps(value))
         
     def get_dkg_key(self, key):
         return self.__get_data('dkg_list', key)
@@ -55,15 +57,14 @@ class NodeDataManager(DataManager):
         table = self.__tables.get(table_name)
         data = self.__get_data(table_name, key)
         exec_obj = None
-        if data is not None:
+        if data != []:
             exec_obj = update(table).values(value = value)\
                                         .where(table.c.key == key)
         else:
-            exec_obj = insert(self.__tables[table_name])\
+            exec_obj = insert(table)\
                 .values(key = key, value = value)
         
         self.__execute_command(exec_obj)
-        # TODO: Should the connection be closed?
     
     def __get_data(self, table_name: str, key):
         table = self.__tables.get(table_name)
@@ -73,6 +74,10 @@ class NodeDataManager(DataManager):
             select_obj = select(table)\
                        .where(table.c.key == key)
             data = connection.execute(select_obj).fetchone()
+            if data is not None:
+                data = json.loads(data[1]) # value of the data
+            else:
+                data = []
             connection.close()
         return data
     

@@ -1,30 +1,43 @@
-from muon_frost_py.common.configuration_settings import ConfigurationSettings
-from node_process import NodeProcess
+from muon_node import MuonNode
+from common.validators import NodeValidators
+from common.node_data_manager import NodeDataManager
+from common.node_info import NodeInfo
+from config import SECRETS
 import logging
 import sys
+import os
 import trio
 
-
-
-
-
- 
 if __name__ == "__main__":
 
-
-    # Define the logging configurations
-    ConfigurationSettings.set_logging_options \
-                        ('logs', f'node{sys.argv[1]}.log')
-    
-    # Increase the string max limit for integer string conversion
-    sys.set_int_max_str_digits(0)
+    file_path = 'logs'
+    file_name = 'test.log'
+    log_formatter = logging.Formatter('%(asctime)s - %(message)s', )
+    root_logger = logging.getLogger()
+    if not os.path.exists(file_path):
+        os.mkdir(file_path)
+    with open(f'{file_path}/{file_name}', 'w'):
+        pass
+    file_handler = logging.FileHandler(f'{file_path}/{file_name}')
+    file_handler.setFormatter(log_formatter)
+    root_logger.addHandler(file_handler)
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(log_formatter)
+    root_logger.addHandler(console_handler)
+    root_logger.setLevel(logging.DEBUG)
 
     node_number = int(sys.argv[1])
-    registry_url = ''
-    node_process = NodeProcess(registry_url)
-    
+    data_manager = NodeDataManager(node_number + 1)
+    node_info = NodeInfo()
+    all_nodes = node_info.get_all_nodes()
+    # TODO: Add multi instance
+    peer_id = all_nodes[str(node_number + 1)][0]
+    address = node_info.lookup_node(peer_id)[0]
+    registry_url = 'http://127.0.0.1:8050/v1'
+    muon_node = MuonNode(registry_url, data_manager, address, SECRETS[peer_id], node_info, NodeValidators.caller_validator,
+                         NodeValidators.data_validator)
+
     try:
-        # Run the libp2p node
-        trio.run(node_process.run, node_number)
+        trio.run(muon_node.run_process)
     except KeyboardInterrupt:
         pass
