@@ -1,7 +1,7 @@
 from muon_node import MuonNode
-from common.validators import NodeValidators
-from common.node_data_manager import NodeDataManager
-from common.node_info import NodeInfo
+from abstracts.validators import NodeValidators
+from abstracts.node_data_manager import NodeDataManager
+from abstracts.node_info import NodeInfo
 from config import SECRETS
 import logging
 import sys

@@ -47,10 +47,10 @@ class NodeDataManager(DataManager):
         result = self.__get_data('nonces', 1)
         return result
     
-    def set_dkg_key(self, key, value) -> None:
+    def set_key(self, key, value) -> None:
         self.__save_data('dkg_list', key, json.dumps(value))
         
-    def get_dkg_key(self, key):
+    def get_key(self, key):
         return self.__get_data('dkg_list', key)
     
     def __save_data(self, table_name: str, key, value) -> None:

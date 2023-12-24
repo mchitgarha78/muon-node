@@ -1,5 +1,5 @@
 import json
-from common.node_info import NodeInfo
+from abstracts.node_info import NodeInfo
 from pyfrost.network.node import Node
 from pyfrost.network.abstract import DataManager
 from typing import Dict
