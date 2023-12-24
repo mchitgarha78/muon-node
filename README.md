@@ -16,7 +16,7 @@ $ source venv/bin/activate
 
 **Note:** The required Python version is `3.10`.
 
-**Note:** Don't forget to set `RUNNER_APP_URL` for your runner app by changing the value of `RUNNER_APP_URL` in `configs.py` directory.
+**Note:** Don't forget to set `RUNNER_APP_URL` for your runner app by changing the value of `RUNNER_APP_URL` in `configs.py` directory and also `APPS_LIST_URL` for retrieving the `apps.json`.
 
 
 ## How to Run

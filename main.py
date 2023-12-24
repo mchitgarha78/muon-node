@@ -1,7 +1,7 @@
 from abstracts.validators import NodeValidators
 from abstracts.node_data_manager import NodeDataManager
 from abstracts.node_info import NodeInfo
-from config import REGISTRY_URL
+from config import APPS_LIST_URL
 from abstracts.node_info import NodeInfo
 from pyfrost.network.node import Node
 from pyfrost.network.abstract import DataManager
@@ -73,7 +73,7 @@ if __name__ == "__main__":
     # TODO: Add multi instance
     peer_id = all_nodes[str(node_number)][0]
     address = node_info.lookup_node(peer_id)[0]
-    muon_node = MuonNode(REGISTRY_URL, data_manager, address, os.getenv('PRIVATE'), node_info, NodeValidators.caller_validator,
+    muon_node = MuonNode(APPS_LIST_URL, data_manager, address, os.getenv('PRIVATE'), node_info, NodeValidators.caller_validator,
                          NodeValidators.data_validator)
 
     try:
