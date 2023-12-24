@@ -8,9 +8,9 @@ import json
 import time
 # TODO: Check timing of getting nonces?!
 class NodeDataManager(DataManager):
-    def __init__(self, number, max_retries=3) -> None:
+    def __init__(self, max_retries=3) -> None:
         super().__init__()
-        self.__engine = create_engine(f'sqlite:///node{number}.db')
+        self.__engine = create_engine(f'sqlite:///node.db')
         self.__session_factory = sessionmaker(bind=self.__engine)
         self.__Session = scoped_session(self.__session_factory)
         self.__max_retries = max_retries

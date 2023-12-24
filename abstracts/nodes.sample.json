@@ -1,0 +1,23 @@
+{
+    "1": {
+        "16Uiu2HAm54JfdJm2eLo911AHEQwc2LRQhLJkKmzTBHsDaePUH1Sb": {
+            "public_key": "08021221028f1b92c655234134f38ecbcc83cb266e163b5b0c4fdeeb6bc6c290286ac4767c",
+            "ip": "103.75.196.96",
+            "port": "5037"
+        }
+    },
+    "2": {
+        "16Uiu2HAm9avJrVoNStZqQ8MwsPUTGwjVv9K27Y6G6sWjcSLytXz5": {
+            "public_key": "0802122102d2620bb2261f1dd4d3ff7e2012013c9e7c6b2d7b565974edfcdee76bcfcb2b3e",
+            "ip": "45.61.160.183",
+            "port": "5000"
+        }
+    },
+    "3": {
+        "16Uiu2HAm6srJLKtZ8RJ2mbQRFr9gKiAuuLoyfaZhVNy5vVPBG4Tm": {
+            "public_key": "0802122102aa25536186d4b44d49efdca759e9c2931acccdc00fee481f4be9a1167c7b77b4",
+            "ip": "89.106.206.214",
+            "port": "5037"
+        }
+    }
+}
