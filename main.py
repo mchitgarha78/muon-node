@@ -1,13 +1,13 @@
 from abstracts.validators import NodeValidators
 from abstracts.node_data_manager import NodeDataManager
 from abstracts.node_info import NodeInfo
-from config import SECRETS
+from config import REGISTRY_URL
 from abstracts.node_info import NodeInfo
 from pyfrost.network.node import Node
 from pyfrost.network.abstract import DataManager
+from dotenv import load_dotenv
 from typing import Dict
 import logging
-import sys
 import os
 import trio
 import types
@@ -49,6 +49,7 @@ class MuonNode(Node):
 
 if __name__ == "__main__":
 
+    load_dotenv()
     file_path = 'logs'
     file_name = 'test.log'
     log_formatter = logging.Formatter('%(asctime)s - %(message)s', )
@@ -65,15 +66,14 @@ if __name__ == "__main__":
     root_logger.addHandler(console_handler)
     root_logger.setLevel(logging.DEBUG)
 
-    node_number = int(sys.argv[1])
-    data_manager = NodeDataManager(node_number + 1)
+    node_number = os.getenv('NODE_ID')
+    data_manager = NodeDataManager(node_number)
     node_info = NodeInfo()
     all_nodes = node_info.get_all_nodes()
     # TODO: Add multi instance
-    peer_id = all_nodes[str(node_number + 1)][0]
+    peer_id = all_nodes[str(node_number)][0]
     address = node_info.lookup_node(peer_id)[0]
-    registry_url = sys.argv[2]
-    muon_node = MuonNode(registry_url, data_manager, address, SECRETS[peer_id], node_info, NodeValidators.caller_validator,
+    muon_node = MuonNode(REGISTRY_URL, data_manager, address, os.getenv('PRIVATE'), node_info, NodeValidators.caller_validator,
                          NodeValidators.data_validator)
 
     try:
