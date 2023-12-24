@@ -77,7 +77,7 @@ if __name__ == "__main__":
     secret = bytes.fromhex(os.getenv('PRIVATE_KEY'))
     key_pair = create_new_key_pair(secret)
     peer_id: PeerID = PeerID.from_pubkey(key_pair.public_key)
-    logging.info(f'Private Key: {key_pair.private_key.serialize().hex()}, Public Key: {key_pair.public_key.serialize().hex()}')
+    logging.info(f'Private Key: {key_pair.private_key.serialize().hex()}, Public Key: {key_pair.public_key.serialize().hex()}, PeerId: {peer_id.to_base58()}')
     address = node_info.lookup_node(peer_id.to_base58())[0]
     muon_node = MuonNode(APPS_LIST_URL, data_manager, address, os.getenv('PRIVATE_KEY'), node_info, NodeValidators.caller_validator,
                          NodeValidators.data_validator)
