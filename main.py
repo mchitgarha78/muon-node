@@ -5,6 +5,8 @@ from config import APPS_LIST_URL
 from abstracts.node_info import NodeInfo
 from pyfrost.network.node import Node
 from pyfrost.network.abstract import DataManager
+from libp2p.crypto.secp256k1 import create_new_key_pair
+from libp2p.peer.id import ID as PeerID
 from dotenv import load_dotenv
 from typing import Dict
 import logging
@@ -71,9 +73,13 @@ if __name__ == "__main__":
     node_info = NodeInfo()
     all_nodes = node_info.get_all_nodes()
     # TODO: Add multi instance
-    peer_id = all_nodes[str(node_number)][0]
-    address = node_info.lookup_node(peer_id)[0]
-    muon_node = MuonNode(APPS_LIST_URL, data_manager, address, os.getenv('PRIVATE'), node_info, NodeValidators.caller_validator,
+    peer_id = all_nodes[str(node_number)][0]   
+    secret = bytes.fromhex(os.getenv('PRIVATE_KEY'))
+    key_pair = create_new_key_pair(secret)
+    peer_id: PeerID = PeerID.from_pubkey(key_pair.public_key)
+    logging.info(f'Private Key: {key_pair.private_key.serialize().hex()}, Public Key: {key_pair.public_key.serialize().hex()}')
+    address = node_info.lookup_node(peer_id.to_base58())[0]
+    muon_node = MuonNode(APPS_LIST_URL, data_manager, address, os.getenv('PRIVATE_KEY'), node_info, NodeValidators.caller_validator,
                          NodeValidators.data_validator)
 
     try:
