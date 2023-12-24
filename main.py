@@ -1,12 +1,51 @@
-from muon_node import MuonNode
 from abstracts.validators import NodeValidators
 from abstracts.node_data_manager import NodeDataManager
 from abstracts.node_info import NodeInfo
 from config import SECRETS
+from abstracts.node_info import NodeInfo
+from pyfrost.network.node import Node
+from pyfrost.network.abstract import DataManager
+from typing import Dict
 import logging
 import sys
 import os
 import trio
+import types
+import requests
+import json
+
+
+class MuonNode(Node):
+    def __init__(self, registry_url, data_manager: DataManager, address: Dict[str, str],
+                 secret: str, node_info: NodeInfo, caller_validator: types.FunctionType,
+                 data_validator: types.FunctionType) -> None:
+
+        super().__init__(data_manager, address,
+                         secret, node_info, caller_validator,
+                         data_validator)
+        self.registry_url = registry_url
+        self.app_data = {}
+
+    async def maintain_dkg_list(self):
+        while True:
+            try:
+                new_data: Dict = requests.get(self.registry_url).json()
+                for id, data in new_data.items():
+                    # TODO: Where should be used?
+                    self.app_data[id] = json.dumps(data)
+                # TODO: Revert to 5 mins after testing.
+                await trio.sleep(5)  # wait for 5 mins
+            except Exception as e:
+                logging.error(
+                    f'Muon Node => Exception occurred.{type(e).__name__}: {e}')
+                await trio.sleep(1)
+                continue
+
+    async def run_process(self) -> None:
+        async with trio.open_nursery() as nursery:
+            nursery.start_soon(self.run)
+            nursery.start_soon(self.maintain_dkg_list)
+
 
 if __name__ == "__main__":
 
@@ -33,7 +72,7 @@ if __name__ == "__main__":
     # TODO: Add multi instance
     peer_id = all_nodes[str(node_number + 1)][0]
     address = node_info.lookup_node(peer_id)[0]
-    registry_url = 'http://127.0.0.1:8050/v1'
+    registry_url = sys.argv[2]
     muon_node = MuonNode(registry_url, data_manager, address, SECRETS[peer_id], node_info, NodeValidators.caller_validator,
                          NodeValidators.data_validator)
 

@@ -44,7 +44,13 @@ class NodeDataManager(DataManager):
         self.__save_data('nonces', 1, json.dumps(nonces_list))
     
     def get_nonces(self):
-        result = self.__get_data('nonces', 1)
+        nonces = self.__get_data('nonces', 1)
+        result = []
+        for nonce in nonces:
+            modified_nonce = nonce.copy()
+            modified_nonce['nonce_d_pair'] = {int(key): value for key, value in nonce['nonce_d_pair'].items()}
+            modified_nonce['nonce_e_pair'] = {int(key): value for key, value in nonce['nonce_e_pair'].items()}
+            result.append(modified_nonce)
         return result
     
     def set_key(self, key, value) -> None:
