@@ -28,7 +28,8 @@ PRIVATE_KEY=<your-private-key>
 NODE_ID=<your-node-id>
 HOST=0.0.0.0
 PORT=5037
-APPS_LIST_URL=<your-apps-url>
+APPS_LIST_URL=<your-apps-list-url>
+RUNNER_APP_URL=<your-node-runner_app>
 ```
 
 You also need to configure your `nodes.json` file in `abstracts` directory:
@@ -39,6 +40,7 @@ You also need to configure your `nodes.json` file in `abstracts` directory:
 
 Get your nodes data and add it to `nodes.json` file. 
 
+After running Muon SA and Muon Registry, enhance their permissions to request to node via updating `config.py` file by editing `VALIDATED_CALLES` variable.
 
 
 ## How to Run

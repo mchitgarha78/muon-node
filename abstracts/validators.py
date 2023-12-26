@@ -1,6 +1,7 @@
 from pyfrost.network.abstract import Validators
-from config import VALIDATED_CALLERS, RUNNER_APP_URL
+from config import VALIDATED_CALLERS
 from libp2p.typing import TProtocol
+import os
 
 from typing import Dict
 import requests
@@ -22,5 +23,5 @@ class NodeValidators(Validators):
             "Content-Type": "application/json"
         }
         result = requests.post(
-            url=RUNNER_APP_URL, headers=headers, json=input_data).json()
+            url=os.getenv('RUNNER_APP_URL'), headers=headers, json=input_data).json()
         return result
