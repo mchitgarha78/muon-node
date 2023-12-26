@@ -22,6 +22,11 @@ class NodeValidators(Validators):
         headers = {
             "Content-Type": "application/json"
         }
-        result = requests.post(
+        params = input_data.get('data', {}).get('params')
+        sign_params = input_data.get('data', {}).get('signParams')
+        result = input_data.get('data', {}).get('result')
+        res: Dict = requests.post(
             url=os.getenv('RUNNER_APP_URL'), headers=headers, json=input_data).json()
-        return result
+        if not res.get('hash'):
+            res['hash'] = ''
+        return res
