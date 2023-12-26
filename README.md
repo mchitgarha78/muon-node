@@ -40,6 +40,7 @@ You also need to configure your `nodes.json` file in `abstracts` directory:
 Get your nodes data and add it to `nodes.json` file. 
 
 
+
 ## How to Run
 
 Type the following command to run Muon node:
@@ -49,4 +50,4 @@ Type the following command to run Muon node:
 ```
 
 
-
+When you run your node, the first lines illustrate your `Public key` and your `Peer ID`. You can add this data to your `nodes.json` files of all nodes, registry, and sa.
