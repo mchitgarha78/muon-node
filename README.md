@@ -18,6 +18,21 @@ $ source venv/bin/activate
 
 **Note:** Don't forget to set `RUNNER_APP_URL` for your runner app by changing the value of `RUNNER_APP_URL` in `configs.py` directory and also `APPS_LIST_URL` for retrieving the `apps.json`.
 
+After these installations, configure `.env` file. The file `.env.example` has the example of thie environment variables. So you can type the following command:
+```bash
+(venv) $ cp .env.example .env
+```
+
+Change your settings in the `.env` file:
+```
+PRIVATE_KEY=<your-private-key>
+NODE_ID=<your-node-id>
+HOST=0.0.0.0
+PORT=5037
+APPS_LIST_URL=<your-apps-url>
+```
+
+
 
 ## How to Run
 

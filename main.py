@@ -1,7 +1,6 @@
 from abstracts.validators import NodeValidators
 from abstracts.node_data_manager import NodeDataManager
 from abstracts.node_info import NodeInfo
-from config import APPS_LIST_URL
 from abstracts.node_info import NodeInfo
 from pyfrost.network.node import Node
 from pyfrost.network.abstract import DataManager
@@ -53,7 +52,7 @@ if __name__ == "__main__":
 
     load_dotenv()
     file_path = 'logs'
-    file_name = 'test.log'
+    file_name = 'node.log'
     log_formatter = logging.Formatter('%(asctime)s - %(message)s', )
     root_logger = logging.getLogger()
     if not os.path.exists(file_path):
@@ -78,7 +77,7 @@ if __name__ == "__main__":
     peer_id: PeerID = PeerID.from_pubkey(key_pair.public_key)
     logging.info(f'Public Key: {key_pair.public_key.serialize().hex()}, PeerId: {peer_id.to_base58()}')
     address = node_info.lookup_node(peer_id.to_base58())[0]
-    muon_node = MuonNode(APPS_LIST_URL, data_manager, address, os.getenv('PRIVATE_KEY'), node_info, NodeValidators.caller_validator,
+    muon_node = MuonNode(os.getenv('APPS_LIST_URL'), data_manager, address, os.getenv('PRIVATE_KEY'), node_info, NodeValidators.caller_validator,
                          NodeValidators.data_validator)
 
     try:
