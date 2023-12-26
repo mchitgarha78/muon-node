@@ -32,6 +32,13 @@ PORT=5037
 APPS_LIST_URL=<your-apps-url>
 ```
 
+You also need to configure your `nodes.json` file in `abstracts` directory:
+
+```bash
+(venv) $ cp ./abstracts/nodes.json.example ./abstracts/nodes.json
+```
+
+Get your nodes data and add it to `nodes.json` file. 
 
 
 ## How to Run
