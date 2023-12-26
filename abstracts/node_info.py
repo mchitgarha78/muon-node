@@ -3,6 +3,7 @@ from typing import Dict
 from itertools import islice
 import json
 
+
 class NodeInfo(BaseNodeInfo):
     def __init__(self):
         with open('./abstracts/nodes.json', 'r') as reader:
