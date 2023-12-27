@@ -1,10 +1,9 @@
 from pyfrost.network.abstract import Validators
 from config import VALIDATED_CALLERS
 from libp2p.typing import TProtocol
-from typing import Dict
-import hashlib
 import os
-import json
+
+from typing import Dict
 import requests
 
 
@@ -23,9 +22,6 @@ class NodeValidators(Validators):
         headers = {
             "Content-Type": "application/json"
         }
-        res: Dict = requests.post(
+        result = requests.post(
             url=os.getenv('RUNNER_APP_URL'), headers=headers, json=input_data).json()
-        if not res.get('hash'):
-            hash_obj = hashlib.sha3_256(json.dumps(res).encode())
-            res['hash'] = hash_obj.hexdigest()
-        return res
+        return result
