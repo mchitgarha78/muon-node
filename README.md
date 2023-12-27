@@ -1,6 +1,6 @@
 # Muon Node
 
-This implementation represents Muon-Node version of [pyfrost](https://github.com/SAYaghoubnejad/pyfrost) library to run Nodes. Muon-Node along the [Muon-SA](https://github.com/mchitgarha78/muon-sa), the [Muon-Registry](https://github.com/mchitgarha78/muon-registry), and Muon-Apps runner ([python apps runner](https://github.com/mchitgarha78/muon-py-apps) and [js apps runner](https://github.com/mchitgarha78/muon-js-apps/tree/main)) represent the core of the Muon network to deploy and run apps and issue a distributed signature. For more insight on the Muon network, please read our [document](https://github.com/mchitgarha78/muon-node/wiki) describing the main functionalities of the muon system.
+Muon-Node uses the [pyfrost](https://github.com/SAYaghoubnejad/pyfrost) library to implement a Python client for Muon network. Muon-Node along with the [Muon-SA](https://github.com/mchitgarha78/muon-sa), the [Muon-Registry](https://github.com/mchitgarha78/muon-registry), and apps runners ([python apps runner](https://github.com/mchitgarha78/muon-py-apps) and [js apps runner](https://github.com/mchitgarha78/muon-js-apps/tree/main)) represent the core of the Muon network to deploy and run apps and issue threshold signatures. For more insight on the Muon network, please read our [document](https://github.com/mchitgarha78/muon-node/wiki) describing the main functionalities of the muon system.
 
 ## How to Setup
 
